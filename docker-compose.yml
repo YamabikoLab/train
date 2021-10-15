@@ -14,6 +14,35 @@ services:
             - 3000:3000
         environment:
             WWWUSER: '${WWWUSER}'
+            DOCKER_BUILDKIT: 1
         volumes:
             - '.:/var/www/html'
+        networks:
+            - train
+        depends_on:
+            - mysql
         tty: true
+    mysql:
+        image: 'mysql:8.0'
+        ports:
+            - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+            - 'trainmysql:/var/lib/mysql'
+        networks:
+            - train
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+            retries: 3
+            timeout: 5s
+networks:
+    train:
+        driver: bridge
+volumes:
+    trainmysql:
+        driver: local
