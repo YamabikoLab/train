@@ -1,0 +1,19 @@
+version: '3'
+services:
+    rails.test:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+            args:
+                TIME_ZONE: ${TIME_ZONE}
+                WWWUSER: '${WWWUSER}'
+                WWWGROUP: '${WWWGROUP}'
+                RUBY_VERSION: ${RUBY_VERSION}
+        image: ubuntu:21.10
+        ports:
+            - 3000:3000
+        environment:
+            WWWUSER: '${WWWUSER}'
+        volumes:
+            - '.:/var/www/html'
+        tty: true
