@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM ubuntu:21.04
 
 LABEL maintainer="yamabiko"
 
@@ -21,11 +21,8 @@ RUN apt update \
     && apt install -y nodejs \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
-    && apt-get update \
-    && apt-get install -y yarn \
-    && apt -y autoremove \
-    && apt clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && apt update \
+    && apt install -y yarn
 
 RUN groupadd --force -g ${WWWGROUP} train
 RUN useradd -ms /bin/bash --no-user-group -g ${WWWGROUP} -u ${WWWUSER} train
@@ -34,11 +31,12 @@ USER train
 
 WORKDIR /home/train
 RUN mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew \
-    && echo 'eval "$($HOME/homebrew/bin/brew shellenv)"' >> $HOME/.bashrc && eval "$(homebrew/bin/brew shellenv)" \
+    && echo 'eval "$(/home/train/homebrew/bin/brew shellenv)"' >> $HOME/.bashrc && eval "$(/home/train/homebrew/bin/brew shellenv)" \
     && brew update --force --quiet \
     && chmod -R go-w "$(brew --prefix)/share/zsh" \
+    && brew install rbenv \
     && echo 'eval "$(rbenv init - bash)"' >> $HOME/.bashrc && eval "$(rbenv init - bash)" \
     && rbenv install ${RUBY_VERSION} && rbenv global ${RUBY_VERSION} && rbenv rehash \
     && gem install bundler && gem install rails && rbenv rehash
 
-CMD ["/bin/bash"]
+ CMD ["/bin/bash"]

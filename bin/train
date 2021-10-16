@@ -217,9 +217,11 @@ if [ $# -gt 0 ]; then
             --build-arg TIME_ZONE=${TIME_ZONE} \
             --build-arg WWWUSER=${WWWUSER} \
             --build-arg WWWGROUP=${WWWGROUP} \
-            --build-arg RUBY_VERSION=${RUBY_VERSION}
+            --build-arg RUBY_VERSION=${RUBY_VERSION} \
+            --force-rm=true \
+            --no-cache=true
 
-        #rails_new
+        rails_new
     
     elif [ "$1" == "new" ] ; then
         rails_new
