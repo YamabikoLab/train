@@ -44,6 +44,19 @@ function train_is_not_running {
     exit 1
 }
 
+function rails_new {
+    if [ -e ./${APP_NAME} ] ; then
+        echo -e "${WHITE}${APP_NAME} exists.${NC}" >&2
+    else
+        docker build \
+            -f runtimes/rails/Dockerfile \
+            -t rails . \
+            -o . \
+            --build-arg DOCKER_BUILDKIT=1 \
+            --build-arg APP_NAME=${APP_NAME}
+    fi
+}
+
 if [ -z "$TRAIN_SKIP_CHECKS" ]; then
     # Ensure that Docker is running...
     if ! docker info > /dev/null 2>&1; then
@@ -196,6 +209,20 @@ if [ $# -gt 0 ]; then
         else
             train_is_not_running
         fi
+
+    elif [ "$1" == "init" ] ; then
+        docker build \
+            -f runtimes/base/Dockerfile \
+            -t train . \
+            --build-arg TIME_ZONE=${TIME_ZONE} \
+            --build-arg WWWUSER=${WWWUSER} \
+            --build-arg WWWGROUP=${WWWGROUP} \
+            --build-arg RUBY_VERSION=${RUBY_VERSION}
+
+        #rails_new
+    
+    elif [ "$1" == "new" ] ; then
+        rails_new
 
     # Pass unknown commands to the "docker-compose" binary...
     else

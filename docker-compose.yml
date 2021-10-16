@@ -1,27 +1,21 @@
 version: '3'
 services:
     rails.test:
+        image: train/app
         build:
-            context: ./
+            context: ./runtimes/server
             dockerfile: Dockerfile
-            args:
-                TIME_ZONE: ${TIME_ZONE}
-                WWWUSER: '${WWWUSER}'
-                WWWGROUP: '${WWWGROUP}'
-                RUBY_VERSION: ${RUBY_VERSION}
-        image: ubuntu:21.10
         ports:
-            - 3000:3000
+            - 80:80
         environment:
             WWWUSER: '${WWWUSER}'
-            DOCKER_BUILDKIT: 1
+            RAILS_TRAIN: 1
         volumes:
             - '.:/var/www/html'
         networks:
             - train
         depends_on:
             - mysql
-        tty: true
     mysql:
         image: 'mysql:8.0'
         ports:
