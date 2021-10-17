@@ -219,7 +219,7 @@ if [ $# -gt 0 ]; then
                 --force-rm=true \
                 --no-cache=true
 
-            rails_new($1)
+            rails_new $1
         else
             echo -e "${WHITE}train init app_name${NC}" >&2
         fi
@@ -228,7 +228,7 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "new" ] ; then
         shift 1
         if [ $# -eq 1 ] ; then
-            rails_new($1)
+            rails_new $1
         else
             echo -e "${WHITE}train new app_name${NC}" >&2
         fi
