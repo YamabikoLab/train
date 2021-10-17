@@ -50,7 +50,9 @@ function rails_new {
         -t rails . \
         -o . \
         --build-arg DOCKER_BUILDKIT=1 \
-        --build-arg APP_NAME=$1
+        --build-arg APP_NAME=$1 \
+        --progress plain \
+        --no-cache
 }
 
 if [ -z "$TRAIN_SKIP_CHECKS" ]; then
@@ -206,10 +208,10 @@ if [ $# -gt 0 ]; then
             train_is_not_running
         fi
 
-    elif [ "$1" == "init" ] ; then
+    elif [ "$1" == "init" ]; then
         shift 1
-        if [ $# -eq 1 ] ; then
-            docker build \
+        if [ $# -eq 1 ]; then
+             DOCKER_BUILDKIT=1 docker build \
                 -f train/runtimes/base/Dockerfile \
                 -t train . \
                 --build-arg TIME_ZONE=${TIME_ZONE} \
@@ -225,9 +227,9 @@ if [ $# -gt 0 ]; then
         fi
 
     
-    elif [ "$1" == "new" ] ; then
+    elif [ "$1" == "new" ]; then
         shift 1
-        if [ $# -eq 1 ] ; then
+        if [ $# -eq 1 ]; then
             rails_new $1
         else
             echo -e "${WHITE}train new app_name${NC}" >&2

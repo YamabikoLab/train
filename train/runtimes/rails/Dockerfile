@@ -14,7 +14,7 @@ ENV PATH $PATH:/home/train/.rbenv/shims
 ENV PATH $PATH:/home/train/homebrew/bin
 
 RUN rm -rf ./* && rails new ${APP_NAME} -d mysql \
-    mv ${APP_NAME}/. . && rm -rf ${APP_NAME}
+    && cp -rfp ${APP_NAME}/. . && rm -rf ${APP_NAME}
 
 FROM scratch AS export-stage
 COPY --from=stage1 /var/www/html/. .
