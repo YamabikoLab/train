@@ -40,8 +40,7 @@ RUN mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | 
     && brew install rbenv \
     && echo 'eval "$(rbenv init - bash)"' >> $HOME/.bashrc && eval "$(rbenv init - bash)" \
     && rbenv install ${RUBY_VERSION} && rbenv global ${RUBY_VERSION} \
-    && gem install bundler && gem install rails \
-    && chmod +x start-rails.sh
+    && gem install bundler && gem install rails
 
 USER root
 
@@ -53,7 +52,7 @@ RUN apt install -y supervisor \
 COPY train/runtimes/app/start-container /usr/local/bin/start-container
 COPY train/runtimes/app/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod +x /usr/local/bin/start-container
+RUN chmod +x /usr/local/bin/start-container && chmod +x start-rails.sh
 
 WORKDIR /var/www/html
 
