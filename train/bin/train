@@ -169,6 +169,66 @@ if [ $# -gt 0 ]; then
         else
             train_is_not_running
         fi
+    # Proxy erb commands to the "erb" binary on the application container...
+    elif [ "$1" == "erb" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                erb "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy irb commands to the "irb" binary on the application container...
+    elif [ "$1" == "irb" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                irb "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy rake commands to the "rake" binary on the application container...
+    elif [ "$1" == "rake" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                rake "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy rdoc commands to the "rdoc" binary on the application container...
+    elif [ "$1" == "rdoc" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                rdoc "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy ri commands to the "ri" binary on the application container...
+    elif [ "$1" == "ri" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                ri "$@"
+        else
+            train_is_not_running
+        fi
     # Proxy bundle commands to the "bundle" binary on the application container...
     elif [ "$1" == "bundle" ]; then
         shift 1
