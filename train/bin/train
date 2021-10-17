@@ -209,23 +209,19 @@ if [ $# -gt 0 ]; then
         fi
 
     elif [ "$1" == "init" ]; then
+        DOCKER_BUILDKIT=1 docker build \
+        -f train/runtimes/base/Dockerfile \
+        -t train . \
+        --build-arg TIME_ZONE=${TIME_ZONE} \
+        --build-arg WWWUSER=${WWWUSER} \
+        --build-arg WWWGROUP=${WWWGROUP} \
+        --build-arg RUBY_VERSION=${RUBY_VERSION} \
+        --force-rm=true \
+        --no-cache=true
         shift 1
         if [ $# -eq 1 ]; then
-             DOCKER_BUILDKIT=1 docker build \
-                -f train/runtimes/base/Dockerfile \
-                -t train . \
-                --build-arg TIME_ZONE=${TIME_ZONE} \
-                --build-arg WWWUSER=${WWWUSER} \
-                --build-arg WWWGROUP=${WWWGROUP} \
-                --build-arg RUBY_VERSION=${RUBY_VERSION} \
-                --force-rm=true \
-                --no-cache=true
-
             rails_new $1
-        else
-            echo -e "${WHITE}train init app_name${NC}" >&2
         fi
-
     
     elif [ "$1" == "new" ]; then
         shift 1
