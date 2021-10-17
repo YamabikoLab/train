@@ -3,7 +3,7 @@ services:
     rails.test:
         image: train/app
         build:
-            context: ./runtimes/server
+            context: ./train/runtimes/server
             dockerfile: Dockerfile
             args:
                 APP_NAME: '${APP_NAME}'
