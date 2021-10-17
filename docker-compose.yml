@@ -5,8 +5,6 @@ services:
         build:
             context: ./train/runtimes/server
             dockerfile: Dockerfile
-            args:
-                APP_NAME: '${APP_NAME}'
         ports:
             - 80:80
         environment:
