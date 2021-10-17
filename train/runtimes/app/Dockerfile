@@ -31,8 +31,6 @@ USER train
 
 WORKDIR /home/train
 
-COPY train/runtimes/app/start-rails.sh /home/train/start-rails.sh
-
 RUN mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew \
     && echo 'eval "$(/home/train/homebrew/bin/brew shellenv)"' >> $HOME/.bashrc && eval "$(/home/train/homebrew/bin/brew shellenv)" \
     && brew update --force --quiet \
@@ -51,8 +49,9 @@ RUN apt install -y supervisor \
 
 COPY train/runtimes/app/start-container /usr/local/bin/start-container
 COPY train/runtimes/app/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY train/runtimes/app/start-rails.sh /home/train/start-rails.sh
 
-RUN chmod +x /usr/local/bin/start-container && chmod +x start-rails.sh
+RUN chmod +x /usr/local/bin/start-container && chmod +x /home/train/start-rails.sh && chown train:train /home/train/start-rails.sh
 
 WORKDIR /var/www/html
 
