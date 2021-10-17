@@ -2,9 +2,6 @@ version: '3'
 services:
     rails.test:
         image: train/app
-        build:
-            context: ./train/runtimes/server
-            dockerfile: Dockerfile
         ports:
             - 80:80
         environment:

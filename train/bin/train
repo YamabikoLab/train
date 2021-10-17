@@ -210,14 +210,14 @@ if [ $# -gt 0 ]; then
 
     elif [ "$1" == "init" ]; then
         DOCKER_BUILDKIT=1 docker build \
-        -f train/runtimes/base/Dockerfile \
-        -t train . \
+        -f train/runtimes/app/Dockerfile \
+        -t train/app . \
         --build-arg TIME_ZONE=${TIME_ZONE} \
         --build-arg WWWUSER=${WWWUSER} \
         --build-arg WWWGROUP=${WWWGROUP} \
         --build-arg RUBY_VERSION=${RUBY_VERSION} \
         --force-rm=true \
-        --no-cache=true
+        --no-cache
         shift 1
         if [ $# -eq 1 ]; then
             rails_new $1
