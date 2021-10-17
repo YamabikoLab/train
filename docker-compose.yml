@@ -6,7 +6,6 @@ services:
             - 80:80
         environment:
             WWWUSER: '${WWWUSER}'
-            RAILS_TRAIN: 1
         volumes:
             - '.:/var/www/html'
         networks:

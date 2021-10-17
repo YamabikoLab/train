@@ -133,7 +133,66 @@ if [ $# -gt 0 ]; then
         else
             train_is_not_running
         fi
+    # Proxy ruby commands to the "ruby" binary on the application container...
+    elif [ "$1" == "ruby" ]; then
+        shift 1
 
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                ruby "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy rails commands to the "rails" binary on the application container...
+    elif [ "$1" == "rails" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                rails "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy gem commands to the "gem" binary on the application container...
+    elif [ "$1" == "gem" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                gem "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy bundle commands to the "bundle" binary on the application container...
+    elif [ "$1" == "bundle" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                bundle "$@"
+        else
+            train_is_not_running
+        fi
+    # Proxy rbenv commands to the "rbenv" binary on the application container...
+    elif [ "$1" == "rbenv" ]; then
+        shift 1
+
+        if [ "$EXEC" == "yes" ]; then
+            docker-compose exec \
+                -u train \
+                "$APP_SERVICE" \
+                rbenv "$@"
+        else
+            train_is_not_running
+        fi
     # Initiate a MySQL CLI terminal session within the "mysql" container...
     elif [ "$1" == "mysql" ]; then
         shift 1

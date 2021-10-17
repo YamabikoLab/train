@@ -30,6 +30,9 @@ RUN useradd -ms /bin/bash --no-user-group -g ${WWWGROUP} -u ${WWWUSER} train
 USER train
 
 WORKDIR /home/train
+
+COPY train/runtimes/app/start-rails.sh /home/train/start-rails.sh
+
 RUN mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew \
     && echo 'eval "$(/home/train/homebrew/bin/brew shellenv)"' >> $HOME/.bashrc && eval "$(/home/train/homebrew/bin/brew shellenv)" \
     && brew update --force --quiet \
@@ -37,7 +40,8 @@ RUN mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | 
     && brew install rbenv \
     && echo 'eval "$(rbenv init - bash)"' >> $HOME/.bashrc && eval "$(rbenv init - bash)" \
     && rbenv install ${RUBY_VERSION} && rbenv global ${RUBY_VERSION} \
-    && gem install bundler && gem install rails
+    && gem install bundler && gem install rails \
+    && chmod +x start-rails.sh
 
 USER root
 
@@ -48,9 +52,8 @@ RUN apt install -y supervisor \
 
 COPY train/runtimes/app/start-container /usr/local/bin/start-container
 COPY train/runtimes/app/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-RUN chmod +x /usr/local/bin/start-container
 
-USER train
+RUN chmod +x /usr/local/bin/start-container
 
 WORKDIR /var/www/html
 
