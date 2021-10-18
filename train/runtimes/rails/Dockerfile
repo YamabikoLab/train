@@ -1,4 +1,4 @@
-FROM train/app AS stage1
+FROM train AS stage1
 
 LABEL maintainer="yamabiko"
 
