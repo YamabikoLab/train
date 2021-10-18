@@ -50,7 +50,7 @@ function rails_new {
         -t rails . \
         -o . \
         --build-arg DOCKER_BUILDKIT=1 \
-        --build-arg APP_NAME=$1 \
+        --build-arg APP_NAME=${APP_NAME} \
         --progress plain \
         --no-cache
 }
@@ -337,18 +337,9 @@ if [ $# -gt 0 ]; then
         --build-arg RUBY_VERSION=${RUBY_VERSION} \
         --force-rm=true \
         --no-cache
-        shift 1
-        if [ $# -eq 1 ]; then
-            rails_new $1
-        fi
     
     elif [ "$1" == "new" ]; then
-        shift 1
-        if [ $# -eq 1 ]; then
-            rails_new $1
-        else
-            echo -e "${WHITE}train new app_name${NC}" >&2
-        fi
+        rails_new
 
     # Pass unknown commands to the "docker-compose" binary...
     else

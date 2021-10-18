@@ -12,7 +12,7 @@ services:
         environment:
             WWWUSER: '${WWWUSER}'
         volumes:
-            - '{APP_NAME}.:/var/www/html'
+            - './${APP_NAME}:/var/www/html'
         command: bundle exec /var/www/html/bin/rails s -p 80 -b 0.0.0.0
         networks:
             - train

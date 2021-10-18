@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /var/www/html/${APP_NAME}
 
-COPY Gemfile /var/www/html/${APP_NAME}/Gemfile
+COPY ${APP_NAME}/Gemfile /var/www/html/${APP_NAME}/Gemfile
 
 USER train
 
