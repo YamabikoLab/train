@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
+sed -i -e '$d' /home/train/start-rails.sh
+echo "$@" >> /home/train/start-rails.sh
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

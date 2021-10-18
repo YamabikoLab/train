@@ -15,8 +15,7 @@ RUN chown -R train:train /var/www/html
 
 USER train 
 
-RUN rm -rf ./* && rails new ${APP_NAME} -d mysql \
-    && cp -rfp ${APP_NAME}/. . && rm -rf ${APP_NAME}
+RUN rm -rf ${APP_NAME} && rails new ${APP_NAME} -d mysql
 
 FROM scratch AS export-stage
-COPY --from=stage1 /var/www/html/. .
+COPY --from=stage1 /var/www/html/${APP_NAME} .

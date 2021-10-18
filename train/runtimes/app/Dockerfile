@@ -2,22 +2,24 @@ FROM train
 
 LABEL maintainer="yamabiko"
 
-ARG TIME_ZONE
-ARG WWWUSER
-ARG WWWGROUP
-ARG RUBY_VERSION
+ARG APP_NAME
 
 ENV DEBIAN_FRONTEND noninteractive
 
+WORKDIR /var/www/html/${APP_NAME}
+
+COPY Gemfile /var/www/html/${APP_NAME}/Gemfile
+
 USER train
 
-WORKDIR /var/www/html
+ENV PATH $PATH:/home/train/.rbenv/shims
+ENV PATH $PATH:/home/train/homebrew/bin
 
 RUN bundle install
 
 USER root
 
-RUN apt install -y supervisor \
+RUN apt update && apt install -y supervisor && apt install -y vim \
     && apt -y autoremove \
     && apt clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
