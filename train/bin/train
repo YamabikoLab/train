@@ -330,7 +330,7 @@ if [ $# -gt 0 ]; then
     elif [ "$1" == "init" ]; then
         DOCKER_BUILDKIT=1 docker build \
         -f train/runtimes/base/Dockerfile \
-        -t train/app . \
+        -t train . \
         --build-arg TIME_ZONE=${TIME_ZONE} \
         --build-arg WWWUSER=${WWWUSER} \
         --build-arg WWWGROUP=${WWWGROUP} \
