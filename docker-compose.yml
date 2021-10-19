@@ -4,6 +4,8 @@ services:
         build:
             context: .
             dockerfile: train/runtimes/app/Dockerfile
+            args:
+                APP_NAME: ${APP_NAME}
         image: train/app
         ports:
             - 80:80

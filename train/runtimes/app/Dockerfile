@@ -6,9 +6,9 @@ ARG APP_NAME
 
 ENV DEBIAN_FRONTEND noninteractive
 
-WORKDIR /var/www/html/${APP_NAME}
+WORKDIR /var/www/html
 
-COPY ${APP_NAME}/Gemfile /var/www/html/${APP_NAME}/Gemfile
+COPY ${APP_NAME}/Gemfile /var/www/html/Gemfile
 
 USER train
 
