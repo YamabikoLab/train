@@ -38,6 +38,18 @@ services:
             test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            - PMA_HOST=mysql
+        ports:
+            - 8080:80
+        volumes:
+            - ./infra/docker/phpmyadmin/sessions:/sessions
+        networks:
+           - train
+        depends_on:
+            - mysql
 networks:
     train:
         driver: bridge
