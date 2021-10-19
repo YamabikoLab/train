@@ -3,6 +3,7 @@ FROM train AS stage1
 LABEL maintainer="yamabiko"
 
 ARG APP_NAME
+ARG OPTION
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -15,7 +16,7 @@ RUN chown -R train:train /var/www/html
 
 USER train 
 
-RUN rm -rf ${APP_NAME} && rails new ${APP_NAME} -d mysql
+RUN rm -rf ${APP_NAME} && rails new ${APP_NAME} ${OPTION}
 
 FROM scratch AS export-stage
 COPY --from=stage1 /var/www/html/${APP_NAME} .

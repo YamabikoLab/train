@@ -44,17 +44,6 @@ function train_is_not_running {
     exit 1
 }
 
-function rails_new {
-    docker build \
-        -f train/runtimes/rails/Dockerfile \
-        -t rails . \
-        -o . \
-        --build-arg DOCKER_BUILDKIT=1 \
-        --build-arg APP_NAME=${APP_NAME} \
-        --progress plain \
-        --no-cache
-}
-
 if [ -z "$TRAIN_SKIP_CHECKS" ]; then
     # Ensure that Docker is running...
     if ! docker info > /dev/null 2>&1; then
@@ -339,7 +328,20 @@ if [ $# -gt 0 ]; then
         --no-cache
     
     elif [ "$1" == "new" ]; then
-        rails_new
+        shift 1
+        OPTION=$@
+        if [ -z "${OPTION}" ]; then
+            OPTION='-d mysql'
+        fi
+        docker build \
+            -f train/runtimes/rails/Dockerfile \
+            -t rails . \
+            -o . \
+            --build-arg DOCKER_BUILDKIT=1 \
+            --build-arg APP_NAME=${APP_NAME} \
+            --build-arg OPTION="${OPTION/-/\-}" \
+            --progress plain \
+            --no-cache
 
     # Pass unknown commands to the "docker-compose" binary...
     else
