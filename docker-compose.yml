@@ -48,7 +48,7 @@ services:
         ports:
             - 8080:80
         volumes:
-            - ./infra/docker/phpmyadmin/sessions:/sessions
+            - ./train/infra/phpmyadmin/sessions:/sessions
         networks:
            - train
         depends_on:
