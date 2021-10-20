@@ -329,19 +329,27 @@ if [ $# -gt 0 ]; then
     
     elif [ "$1" == "new" ]; then
         shift 1
-        OPTION=$@
-        if [ -z "${OPTION}" ]; then
-            OPTION='-d mysql'
+        APP_NAME=$1
+        if [ -n "${APP_NAME}" ]; then
+            shift 1
+            OPTION=$@
+            if [ -z "${OPTION}" ]; then
+                OPTION='-d mysql'
+            fi
+            docker build \
+                -f train/runtimes/rails/Dockerfile \
+                -t rails . \
+                -o . \
+                --build-arg DOCKER_BUILDKIT=1 \
+                --build-arg APP_NAME=${APP_NAME} \
+                --build-arg OPTION="${OPTION/-/\-}" \
+                --progress plain \
+                --no-cache
+        else
+            echo -e "${WHITE}train new app_name [option]${NC}" >&2
+            exit 1
         fi
-        docker build \
-            -f train/runtimes/rails/Dockerfile \
-            -t rails . \
-            -o . \
-            --build-arg DOCKER_BUILDKIT=1 \
-            --build-arg APP_NAME=${APP_NAME} \
-            --build-arg OPTION="${OPTION/-/\-}" \
-            --progress plain \
-            --no-cache
+
 
     # Pass unknown commands to the "docker-compose" binary...
     else
