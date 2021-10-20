@@ -16,7 +16,9 @@ RUN chown -R train:train /var/www/html
 
 USER train 
 
-RUN rm -rf ${APP_NAME} && rails new ${APP_NAME} ${OPTION}
+RUN rm -rf ./* && rails new ${APP_NAME} ${OPTION} \
+    && rm -rf ${APP_NAME}/.git && mkdir _${APP_NAME} && cp -rf ${APP_NAME}/. _${APP_NAME}
 
 FROM scratch AS export-stage
-COPY --from=stage1 /var/www/html/${APP_NAME} .
+ARG APP_NAME
+COPY --from=stage1 /var/www/html/_${APP_NAME}/. .

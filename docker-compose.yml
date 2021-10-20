@@ -4,17 +4,13 @@ services:
         build:
             context: .
             dockerfile: train/runtimes/app/Dockerfile
-            args:
-                APP_NAME: ${APP_NAME}
         image: train/app
         ports:
             - 80:80
             - 1234:1234
             - 26162:26162
-        environment:
-            WWWUSER: '${WWWUSER}'
         volumes:
-            - './${APP_NAME}:/var/www/html'
+            - '.:/var/www/html'
         command: bundle exec /var/www/html/bin/rails s -p 80 -b 0.0.0.0
         networks:
             - train
