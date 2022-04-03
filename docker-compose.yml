@@ -5,7 +5,7 @@ services:
             context: .
             dockerfile: train/runtimes/app/Dockerfile
             args:
-                - USER_NAME='${USER_NAME}'
+                - USER_NAME=${USER_NAME}
                 - NODESOURCE_VERSION='${NODESOURCE_VERSION}'
         image: train/app
         ports:

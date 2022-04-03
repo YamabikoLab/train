@@ -290,6 +290,7 @@ if [ $# -gt 0 ]; then
         --build-arg USER_NAME=${USER_NAME} \
         --build-arg GROUP_NAME=${GROUP_NAME} \
         --build-arg RUBY_VERSION=${RUBY_VERSION} \
+        --build-arg RAILS_VERSION=${RAILS_VERSION} \
         --force-rm=true \
         --no-cache
     
@@ -308,6 +309,7 @@ if [ $# -gt 0 ]; then
             --build-arg APP_NAME=${APP_NAME} \
             --build-arg USER_NAME=${USER_NAME} \
             --build-arg GROUP_NAME=${GROUP_NAME} \
+            --build-arg RAILS_VERSION=${RAILS_VERSION} \
             --build-arg OPTION="${OPTION/-/\-}" \
             --progress plain \
             --no-cache
