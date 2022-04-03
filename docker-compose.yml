@@ -6,16 +6,17 @@ services:
             dockerfile: train/runtimes/app/Dockerfile
         image: train/app
         ports:
-            - 80:80
+            - 3000:3000
             - 1234:1234
             - 26162:26162
         volumes:
             - '.:/var/www/html'
-        command: bundle exec /var/www/html/bin/rails s -p 80 -b 0.0.0.0
+            - rbenv:/root/.rbenv
         networks:
             - train
         depends_on:
             - mysql
+        tty: true
     mysql:
         image: 'mysql:8.0'
         ports:
@@ -27,7 +28,7 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'trainmysql:/var/lib/mysql'
+            - 'mysql:/var/lib/mysql'
         networks:
             - train
         healthcheck:
@@ -48,7 +49,7 @@ services:
         ports:
             - 8080:80
         volumes:
-            - ./train/infra/phpmyadmin/sessions:/sessions
+            - phpmyadmin:/sessions
         networks:
            - train
         depends_on:
@@ -57,5 +58,9 @@ networks:
     train:
         driver: bridge
 volumes:
-    trainmysql:
+    rbenv:
+        driver: local
+    mysql:
+        driver: local
+    phpmyadmin:
         driver: local

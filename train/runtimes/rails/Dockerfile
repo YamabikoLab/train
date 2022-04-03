@@ -16,7 +16,7 @@ RUN chown -R train:train /var/www/html
 
 USER train 
 
-RUN rm -rf ./* && rails new ${APP_NAME} ${OPTION} \
+RUN rm -rf ./* && rbenv exec rails new ${APP_NAME} ${OPTION} \
     && rm -rf ${APP_NAME}/.git && mkdir _${APP_NAME} && cp -rf ${APP_NAME}/. _${APP_NAME}
 
 FROM scratch AS export-stage

@@ -38,6 +38,6 @@ RUN mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | 
     && brew install rbenv \
     && echo 'eval "$(rbenv init - bash)"' >> $HOME/.bashrc && eval "$(rbenv init - bash)" \
     && rbenv install ${RUBY_VERSION} && rbenv global ${RUBY_VERSION} \
-    && gem install bundler && gem install rails
+    && rbenv exec gem install bundler && rbenv exec gem install rails
 
 CMD ["/bin/bash"]
