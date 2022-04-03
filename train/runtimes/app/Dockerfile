@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ARG USER_NAME
 ARG NODESOURCE_VERSION
+ARG APP_ROOT
 
 USER root
 
@@ -24,7 +25,7 @@ USER ${USER_NAME}
 COPY Gemfile /var/www/html/Gemfile
 COPY Gemfile.lock /var/www/html/Gemfile.lock
 
-WORKDIR /var/www/html
+WORKDIR ${APP_ROOT}
 
 ARG HOME_DIR=/home/${USER_NAME}
 

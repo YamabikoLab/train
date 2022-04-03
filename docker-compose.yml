@@ -7,13 +7,14 @@ services:
             args:
                 - USER_NAME=${USER_NAME}
                 - NODESOURCE_VERSION='${NODESOURCE_VERSION}'
+                - APP_ROOT=${APP_ROOT}
         image: train/app
         ports:
             - 3000:3000
             - 1234:1234
             - 26162:26162
         volumes:
-            - '.:/var/www/html'
+            - '.:${APP_ROOT}'
             - rbenv:/root/.rbenv
         networks:
             - train
