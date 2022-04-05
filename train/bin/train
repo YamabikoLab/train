@@ -313,6 +313,8 @@ if [ $# -gt 0 ]; then
             --build-arg OPTION="${OPTION/-/\-}" \
             --progress plain \
             --no-cache
+        
+        sed -E -i "s@\"workspaceFolder\": \".*\"@\"workspaceFolder\": \"${APP_ROOT}\"@" .devcontainer/devcontainer.json
     # Pass unknown commands to the "docker-compose" binary...
     else
         docker-compose "$@"
